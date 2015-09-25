@@ -1,0 +1,25 @@
+<!--<a class="cell" ng-repeat="cell in cells" href="{{cell.action}}">
+  <i ng-class="cell.icon" class="icon"></i>
+  <span class="tip">{{cell.text}}</span>
+</a>-->
+
+<!--<table>
+	<tr ng-repeat="iconLine in getIconLines()">
+		<td ng-repeat="icon in iconLine">
+			<a href="#">
+  				<i ng-class="cell.icon" class="icon"></i>
+  				<span class="tip">{{cell.text}}</span>
+			</a>
+		</td>
+	</tr>
+</table>-->
+
+
+<div class="icon-grid row" ng-repeat="iconLine in getIconLines()">
+	<div class="col icon-cell" ng-repeat="icon in iconLine">
+		<a href="#">
+  			<i ng-class="icon.icon" class="icon"></i>
+  			<span class="text">{{icon.text}}</span>
+		</a>
+	</div>
+</div>
