@@ -1,19 +1,25 @@
-<div class="bar bar-header bar-royal">
-	<button class="button button-icon icon ion-chevron-left icon-accessory" ui-sref="app.home"></button>
+<!--<div class="bar bar-header bar-royal">
+	<button class="button button-icon icon ion-ios-arrow-left icon-accessory" ui-sref="app.home"></button>
 	<h1 class="title">Login</h1>
-</div>
-<ion-content class="has-header">
-	<div class="list list-inset">
-		<label class="item item-input">
-			<i class="icon ion-person placeholder-icon"></i>
-			<input type="text" placeholder="User Name">	
-		</label>	
-		<label class="item item-input">
-			<i class="icon ion-locked placeholder-icon"></i>
-			<input type="password" placeholder="Password">	
-		</label>
+</div>-->
+<ion-view title="Login">
+	<ion-nav-bar class="bar bar-header bar-royal">
+		<ion-nav-back-button>
+		</ion-nav-back-button>
+	</ion-nav-bar>
+	<ion-content class="has-header">
+		<div class="list list-inset">
+			<label class="item item-input">
+				<i class="icon ion-person placeholder-icon"></i>
+				<input type="text" placeholder="User Name">	
+			</label>	
+			<label class="item item-input">
+				<i class="icon ion-locked placeholder-icon"></i>
+				<input type="password" placeholder="Password">	
+			</label>
 
-		<button class="button button-block button-positive">Login</button>
-		<button class="button button-block button-energized" ui-sref="register">Register</button>
-	</div>
-</ion-content>
+			<button class="button button-block button-positive">Login</button>
+			<button class="button button-block button-energized" ui-sref="app.register">Register</button>
+		</div>
+	</ion-content>
+</ion-view>

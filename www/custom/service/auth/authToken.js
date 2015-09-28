@@ -2,9 +2,11 @@
 	'use strict';
 
 	angular.module('custom-service')
-		   .service('authToken', [authToken]);
+		   .factory('authToken', authToken);
 
-	function authToken(){
+	authToken.$inject = ['$window'];
+    
+	function authToken($window){
 
 		var storage = $window.localStorage;
 		var cacheToken;
@@ -17,6 +19,7 @@
 		};
 
 		return service;
+
 
 		function setToken(token){
 			cacheToken = token;

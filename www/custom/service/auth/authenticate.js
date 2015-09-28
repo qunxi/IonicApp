@@ -3,7 +3,7 @@
 
 	angular
 		.module('custom-service')
-	    .factory('authenticate', [authenticate]);
+	    .factory('authenticate', authenticate);
 
 	authenticate.$inject = ['$http', 'authToken'];
 

@@ -7,7 +7,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="custom/directive/iconGrid.css">
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -19,10 +19,17 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!--custom lib-->
+    <script src="custom/custom.js"></script>
+    <script src="custom/service/auth/authToken.js"></script> 
+    <script src="custom/service/auth/authInterceptor.js"></script>
+    <script src="custom/service/auth/authenticate.js"></script>
+    <script src="custom/directive/iconGrid.js"></script>
+
     <!-- your app's js -->
     <script src="app/app.js"></script>
     <script src="app/home/home-ctrl.js"></script>
-  
+    <script src="app/user/register-ctrl.js"></script>
   </head>
   <body ng-app="mobileApp">
     <ion-nav-view></ion-nav-view> 

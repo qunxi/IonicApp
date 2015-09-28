@@ -1,4 +1,4 @@
-angular.module('mobileApp', ['ionic'])
+angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
 
 .run(function($ionicPlatform){
 	$ionicPlatform.ready(function(){
@@ -42,14 +42,29 @@ angular.module('mobileApp', ['ionic'])
 				}
 			}
 		})
-		.state('login', {
+		.state('app.login', {
 			url: '/login',
-			templateUrl: 'app/user/login.html'
+			views:{
+				'tab-home':{
+					templateUrl: 'app/user/login.html'
+				}
+			}
+			
 		})
-		.state('register', {
+		.state('app.register', {
+			url: '/register',
+			//templateUrl: 'app/user/register.html'
+			views:{
+				'tab-home':{
+					templateUrl: 'app/user/register.html'
+				}
+			}
+		});
+
+		/*.state('register', {
 			url: '/register',
 			templateUrl: 'app/user/register.html'
-		});
+		});*/
 
 	$httpProvider.interceptors.push('authInterceptor');
 	$urlRouterProvider.otherwise('/app/home');	

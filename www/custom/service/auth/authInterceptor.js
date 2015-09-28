@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('custom-service')
-		.factory('authInterceptor', [authInterceptor]);
+		.factory('authInterceptor', authInterceptor);
 
 	authInterceptor.$inject = ['authToken'];
 

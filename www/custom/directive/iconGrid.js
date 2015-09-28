@@ -16,10 +16,20 @@
       },
       controller: function($scope){
 
-        var colNumber = parseInt($scope.colnum);
+        var colNumber = Number($scope.colnum);
+
+        var iconLines = function alignIconCell(){
+           var extraInsert = colNumber - $scope.cells.length % colNumber;
+
+           for(var i = 0; i < extraInsert; ++i){
+              $scope.cells.push(i);
+           }
+           
+           return _.chunk($scope.cells, colNumber);
+        }();
 
         $scope.getIconLines = function(){
-            return _.trunk($scope.cells, colNumber);
+            return iconLines;
         }
       }
     };

@@ -1,33 +1,41 @@
-<div class="bar bar-header bar-royal">
-	<a class="button button-clear" ui-sref="login">Cancel</a>
-	<h1 class="title">Register</h1>
-</div>
-<ion-content class="has-header">
-	<div class="list list-inset">
-		<label class="item item-input">
-			<i class="icon ion-person placeholder-icon"></i>
-			<input type="text" placeholder="User Name">
-		</label>
-	</div>
-	<div class="list list-inset">
-		<label class="item item-input">
-			<i class="icon ion-locked placeholder-icon"></i>
-			<input type="password" placeholder="Password">
-		</label>
-	</div>
-	<div class="list list-inset">
-		<label class="item item-input">
-			<i class="icon ion-locked placeholder-icon"></i>
-			<input type="password" placeholder="Password Again">
-		</label>
-	</div>
-	<div class="list list-inset">
-		<label class="item item-input">
-			<i class="icon ion-email placeholder-icon"></i>
-			<input type="email" placeholder="Email">
-		</label>
-	</div>
-	<div class="list list-inset">
-	<button class="button button-block button-assertive">Free Sign</button>
-	</div>
-</ion-content>
+<ion-view view-title="Register" ng-controller="RegisterCtrl as vm">
+	<ion-nav-bar class="bar bar-header bar-royal">	
+		<ion-nav-back-button>
+		</ion-nav-back-button>
+	</ion-nav-bar>
+
+	<ion-content class="has-header">
+		<div class="list list-inset">
+			<label class="item item-input">
+				<i class="icon ion-person placeholder-icon"></i>
+				<input type="text" placeholder="User Name" ng-model="vm.register.userName" ng-focus="vm.focus.user = true">
+			</label>
+			<div ng-if="vm.focus.user">{{vm.tips.user}}</div>
+
+		</div>
+		<div class="list list-inset">
+			<label class="item item-input">
+				<i class="icon ion-locked placeholder-icon"></i>
+				<input type="password" placeholder="Password" ng-model="vm.register.password">
+			</label>
+			<div ng-if="vm.focus.password">{{vm.tips.password}}</div>
+		</div>
+		<div class="list list-inset">
+			<label class="item item-input">
+				<i class="icon ion-locked placeholder-icon"></i>
+				<input type="password" placeholder="Password Again" ng-model="vm.register.againPassword">
+			</label>
+			<div ng-if="vm.focus.againPassword">{{vm.tips.againPassword}}</div>
+		</div>
+		<div class="list list-inset">
+			<label class="item item-input">
+				<i class="icon ion-email placeholder-icon"></i>
+				<input type="email" placeholder="Email" ng-model="vm.register.email">
+			</label>
+			<div ng-if="vm.focus.email">{{vm.tips.email}}</div>
+		</div>
+		<div class="list list-inset">
+		<button class="button button-block button-assertive">Free Sign</button>
+		</div>
+	</ion-content>
+</ion-view>
