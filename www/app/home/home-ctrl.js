@@ -3,7 +3,9 @@
 
 	angular.module('mobileApp').controller('HomeCtrl', HomeCtrl);
 
-	function HomeCtrl(){
+	HomeCtrl.$inject = ['authToken'];
+
+	function HomeCtrl(authToken){
 		var vm = this;
 
 		vm.slides = [
@@ -30,5 +32,7 @@
 				text: 'Home',
 			},
 		];
+
+		vm.isAuthenticated = authToken.isAuthenticate();
 	}
-})()
+})();

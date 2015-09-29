@@ -1,6 +1,6 @@
 <ion-view view-title="Home" ng-controller="HomeCtrl as vm">
 	<ion-nav-buttons side="right">	
-		<button class="button button-clear" ui-sref="app.register">
+		<button ng-if="!vm.isAuthenticated" class="button button-clear" ui-sref="app.register">
 			<i class="energized">Register</i>
 		</button>
 	</ion-nav-buttons>

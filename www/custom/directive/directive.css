@@ -26,3 +26,17 @@
   font-size: 12px;
   text-align: center;
 }
+
+.tip{
+  display: block;
+  padding: 5px;
+  color: #999;
+  flex: 1 220px;
+}
+
+.error{
+  display: block;
+  flex: 1 220px;
+  padding: 5px;
+  color: #e42012;
+}

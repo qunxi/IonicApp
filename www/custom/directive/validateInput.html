@@ -1,7 +1,6 @@
 <div class="list list-inset">
 	<label class="item item-input">
-		<i class="icon ion-person placeholder-icon"></i>
-		<input type="text" placeholder="User Name" ng-model="vm.register.userName" ng-focus="vm.focus.user = true">
+		<i ng-class="validateData.icon"></i>
+		<input type="{{validateData.type}}" placeholder="{{validateData.placeholder}}" ng-model="validateData.model">
 	</label>
-	<div ng-if="vm.focus.user">{{vm.tips.user}}</div>
 </div>

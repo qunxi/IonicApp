@@ -15,11 +15,20 @@
 		var service = {
 			setToken: setToken,
 			getToken: getToken,
-			isAuthenticate: isAuthenticate
+			removeToken: removeToken,
+			isAuthenticate: isAuthenticate,
+			getCurrentUser: getCurrentUser
 		};
 
 		return service;
 
+		function getCurrentUser(){
+
+		}
+
+		function setCurrentUser(user){
+
+		}
 
 		function setToken(token){
 			cacheToken = token;
@@ -43,4 +52,4 @@
 	}
 
 
-})()
+})();
