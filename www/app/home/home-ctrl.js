@@ -16,23 +16,47 @@
 
 		vm.icons = [
 			{
-				icon: 'ion-ios-home',
-				text: 'Home',
+				icon: 'ion-social-apple',
+				text: 'Apple',
+				action: 'http://www.apple.com'
 			},{
-				icon: 'ion-ios-home',
-				text: 'Home',
+				icon: 'ion-social-android',
+				text: 'Android',
+				action: 'http://wwww.android.com'
 			},{
-				icon: 'ion-ios-home',
-				text: 'Home',
+				icon: 'ion-social-windows',
+				text: 'Windows',
+				action: 'http://www.microsoft.com'
 			},{
-				icon: 'ion-ios-home',
-				text: 'Home',
+				icon: 'ion-social-angular',
+				text: 'Angular',
+				action: 'http://www.angular.org'
 			},{
-				icon: 'ion-ios-home',
-				text: 'Home',
-			},
+				icon: 'ion-social-tux',
+				text: 'Linux',
+				action: 'http://www.linux.org'
+			},{
+				icon: 'ion-social-html5',
+				text: 'Html5',
+				action: 'http://www.w3cschool.com'
+			},{
+				icon: 'ion-social-skype',
+				text: 'Skype',
+				action: 'http://www.skype.com'
+			},{
+				icon: 'ion-social-github',
+				text: 'Github',
+				action: 'http://www.github.com'
+			},{
+				icon: 'ion-social-python',
+				text: 'Python',
+				action: ''
+			}
 		];
 
-		vm.isAuthenticated = authToken.isAuthenticate();
+		vm.isAuthenticated = authToken.isAuthenticated();
+		
+		vm.username = authToken.getCurrentUser().username;
+		//console.log(vm.isAuthenticated);
 	}
 })();

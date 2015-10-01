@@ -17,7 +17,7 @@
 
 <div class="icon-grid row" ng-repeat="iconLine in getIconLines()">
 	<div class="col icon-cell" ng-repeat="icon in iconLine">
-		<a href="#">
+		<a ng-href="{{icon.action}}">
   			<i ng-class="icon.icon" class="icon"></i>
   			<span class="text">{{icon.text}}</span>
 		</a>

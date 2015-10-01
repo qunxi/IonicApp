@@ -4,9 +4,9 @@
     angular.module('mobileApp')
         .controller('RegisterCtrl', RegisterCtrl);
 
-    RegisterCtrl.$inject = ['authenticate', '$ionicPopup', '$timeout'];
+    RegisterCtrl.$inject = ['authenticate', '$ionicPopup'];
 
-    function RegisterCtrl(authenticate, $ionicPopup, $timeout) {
+    function RegisterCtrl(authenticate, $ionicPopup) {
 
         var vm = this;
 
@@ -63,8 +63,6 @@
 
         function checkPassword() {
             var reg = new RegExp('^[\\W\\w]{6,15}$', 'g');
-            //console.log(vm.registerData.password.model);
-            //console.log(reg.test(vm.registerData.password.model));
             return reg.test(vm.registerData.password.model);
         }
 
@@ -93,8 +91,17 @@
                 return;
             }
             
-            authenticate.register(vm.registerData.username.model, 
-            	vm.registerData.password.model, vm.registerData.email.model);
+            authenticate
+            .register(vm.registerData.username.model, 
+            	      vm.registerData.password.model, vm.registerData.email.model)
+            .then(function(error){
+                if (error) {
+                    $ionicPopup.alert({
+                        title: 'ErrorMessage',
+                        content: error.status + ', ' + error.message
+                    });
+                }
+            });
         }
     }
 

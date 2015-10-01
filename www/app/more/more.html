@@ -1,6 +1,7 @@
-<ion-view view-title="More">
-	<ion-content>
-		<div class="list list-inset">
+<ion-view view-title="More" ng-controller="MoreCtrl as vm">
+	
+	<ion-content class="has-header">
+		<div class="list list-inset" ng-if="vm.isAuthenticated">
 			<div class="item item-icon-left item-icon-right">
 				<i class="icon ion-ios-paper"></i>
 				News
@@ -13,7 +14,7 @@
 			</div>
 		</div>
 
-		<div class="list list-inset">
+		<div class="list list-inset"  ng-if="vm.isAuthenticated">
 			<div class="item item-icon-left item-icon-right">
 				<i class="icon ion-ios-star"></i>
 				Favorite

@@ -1,9 +1,11 @@
 <ion-view view-title="Home" ng-controller="HomeCtrl as vm">
 	<ion-nav-buttons side="right">	
-		<button ng-if="!vm.isAuthenticated" class="button button-clear" ui-sref="app.register">
+		<button ng-if="!vm.isAuthenticated" class="button button-clear" ui-sref="register">
 			<i class="energized">Register</i>
 		</button>
+		<button class="button button-clear" ng-if="vm.isAuthenticated" ui-sref="app.account"><span>{{vm.username}}</span></button>
 	</ion-nav-buttons>
+
 	<ion-content class="has-header">
 		<ion-slide-box on-slide-changed="slideHasChanged($index)">
 			<ion-slide ng-repeat="slide in vm.slides">

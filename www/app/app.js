@@ -19,6 +19,7 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
             templateUrl: 'app/layout/layout.html'
         })
         .state('app.home', {
+            cache: false,
             url: '/home',
             views: {
                 'tab-home': {
@@ -28,37 +29,36 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
         })
         .state('app.account', {
             url: '/account',
+            cache: false,
             views: {
                 'tab-account': {
                     templateUrl: 'app/user/account.html'
                 }
-            }
+            },
+            controller: 'AccountCtrl',
+            controllerAs: 'vm'
         })
         .state('app.more', {
             url: '/more',
+            cache: false,
             views: {
                 'tab-more': {
                     templateUrl: 'app/more/more.html'
                 }
             }
         })
-        .state('app.login', {
+        .state('login', {
             url: '/login',
-            views: {
-                'tab-home': {
-                    templateUrl: 'app/user/login.html'
-                }
-            }
-
+            templateUrl: 'app/user/login.html'
         })
-        .state('app.register', {
+        .state('register', {
             url: '/register',
-            //templateUrl: 'app/user/register.html'
-            views: {
+            templateUrl: 'app/user/register.html'
+            /*views: {
                 'tab-home': {
                     templateUrl: 'app/user/register.html'
                 }
-            }
+            }*/
         });
 
     $httpProvider.interceptors.push('authInterceptor');

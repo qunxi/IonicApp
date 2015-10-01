@@ -1,4 +1,9 @@
-<ion-view view-title="Account">
+<ion-view view-title="Account" ng-controller="AccountCtrl as vm">
+	<ion-nav-buttons side="right">	
+		<button ng-if="vm.isAuthenticated" class="button button-clear" ng-click="vm.logout()">
+			<i class="energized">Logout</i>
+		</button>
+	</ion-nav-buttons>
 	<ion-content class="has-header">
 		<div class="lis card">
 			<div class="item item-avatar">

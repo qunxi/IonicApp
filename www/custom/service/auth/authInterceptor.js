@@ -1,32 +1,32 @@
-(function(){
-	'use strict';
+(function() {
+    'use strict';
 
-	angular.module('custom-service')
-		.factory('authInterceptor', authInterceptor);
+    angular.module('custom-service')
+        .factory('authInterceptor', authInterceptor);
 
-	authInterceptor.$inject = ['authToken'];
+    authInterceptor.$inject = ['authToken'];
 
-	function authInterceptor(authToken){
-		var service = {
-			request: request,
-			response: response
-		};
+    function authInterceptor(authToken) {
+        var service = {
+            request: request,
+            response: response
+        };
 
-		return service;
+        return service;
 
-		function request(config){
-			var token = authToken.getToken();
+        function request(config) {
+            var token = authToken.getToken();
 
-			if(token)
-				config.headers.Authorization = "Bear" + token;
-			
-			return config;
-		}
+            if (token)
+                config.headers.Authorization = "Bear" + token;
 
-		function response(response){
-			return response;
-		}
+            return config;
+        }
 
-	}
+        function response(res) {
+            return res;
+        }
+
+    }
 
 })();
