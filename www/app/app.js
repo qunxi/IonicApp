@@ -1,6 +1,6 @@
 angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $state, $ionicHistory) {
     $ionicPlatform.ready(function() {
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -9,18 +9,37 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
             StatusBar.styleDefault();
         }
     });
+
+    $ionicPlatform.registerBackButtonAction(function(e){
+        //e.preventDefault();
+        if($state.current.name === 'app.login'){
+            $state.go('app.home');
+        }
+        else if($ionicHistory.backView()){
+            $ionicHistory.goBack();
+        }
+    }, 101);
 })
 
-.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
     $stateProvider
         .state('app', {
             url: '/app',
             abstract: true,
             templateUrl: 'app/layout/layout.html'
         })
-        .state('app.home', {
+        /*.state('app.home2', {
+            url: '/home2',
             cache: false,
+            views: {
+                'tab-home2': {
+                    templateUrl: 'app/home/home2.html'
+                }
+            }
+        })*/
+        .state('app.home', {
             url: '/home',
+            cache: false,
             views: {
                 'tab-home': {
                     templateUrl: 'app/home/home.html'
@@ -34,9 +53,9 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
                 'tab-account': {
                     templateUrl: 'app/user/account.html'
                 }
-            },
+            }/*,
             controller: 'AccountCtrl',
-            controllerAs: 'vm'
+            controllerAs: 'vm'*/
         })
         .state('app.more', {
             url: '/more',
@@ -47,9 +66,24 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
                 }
             }
         })
-        .state('login', {
+         .state('app.finance', {
+            url: '/finance',
+            cache: false,
+            views: {
+                'tab-finance': {
+                    templateUrl: 'app/finance/stock.html'
+                }
+            }
+        })
+        .state('app.login', {
+
             url: '/login',
-            templateUrl: 'app/user/login.html'
+            //templateUrl: 'app/user/login.html'
+            views:{
+                'tab-account':{
+                    templateUrl: 'app/user/login.html'
+                }
+            }
         })
         .state('register', {
             url: '/register',
@@ -61,6 +95,12 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
             }*/
         });
 
-    $httpProvider.interceptors.push('authInterceptor');
     $urlRouterProvider.otherwise('/app/home');
+
+    //change default platform setup for android
+    $ionicConfigProvider.tabs.position('bottom');
+    $ionicConfigProvider.navBar.alignTitle('center');
+
+    $httpProvider.interceptors.push('authInterceptor');
+   
 });

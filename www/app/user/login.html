@@ -2,8 +2,8 @@
 	<button class="button button-icon icon ion-ios-arrow-left icon-accessory" ui-sref="app.home"></button>
 	<h1 class="title">Login</h1>
 </div>-->
-<ion-view title="Login" ng-controller="LoginCtrl as vm">
-	<ion-nav-bar class="bar bar-header bar-royal">
+<ion-view view-title="Login" ng-controller="LoginCtrl as vm">
+	<ion-nav-bar class="bar-royal">
 		<ion-nav-buttons side="left">	
 			<button class="button button-clear icon ion-ios-arrow-left" ui-sref="app.home">
 			Home
@@ -22,7 +22,8 @@
 			</label>
 
 			<button class="button button-block button-positive" ng-click="vm.login()">Login</button>
-			<button class="button button-block button-energized" ui-sref="register">Register</button>
+			<button class="button button-block button-energized" ui-sref="register" ng-click="vm.showHistory()">Register</button>
 		</div>
+		<div>{{vm.showHistory}}</div>
 	</ion-content>
 </ion-view>

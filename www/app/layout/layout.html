@@ -1,20 +1,21 @@
-<ion-nav-bar class="bar-royal">
-</ion-nav-bar>
+<!--<ion-nav-bar class="bar-royal">
+</ion-nav-bar>-->
 <div class="tabs-striped tabs-color-royal">
 <ion-tabs class="tabs-icon-top tabs-color-active-royal tabs-stable">
-	<ion-tab title="Home" icon-on="ion-ios-home" icon-off="ion-ios-home-outline" href="#/app/home">
+	<!--<ion-tab title="Home2" icon-on="ion-ios-home" icon-off="ion-ios-home-outline" ui-sref="app.home2">
+		<ion-nav-view name="tab-home2"></ion-nav-view>
+	</ion-tab>-->
+
+	<ion-tab title="Home" icon-on="ion-ios-home" icon-off="ion-ios-home-outline" ui-sref="app.home">
 		<ion-nav-view name="tab-home"></ion-nav-view>
 	</ion-tab>
-	<!--<ion-tab title="Cash" icon="ion-cash" href="#">
-		<ion-nav-view name="tab-cash"></ion-nav-view>
-	</ion-tab>
-	<ion-tab title="Club" icon="ion-planet" href="#">
-		<ion-nav-view name="tab-club"></ion-nav-view>
-	</ion-tab>-->
+
 	<ion-tab title="Account" icon-on="ion-ios-person", icon-off="ion-ios-person-outline" ui-sref="app.account">
 		<ion-nav-view name="tab-account"></ion-nav-view>
 	</ion-tab>
-
+	<ion-tab title="Finance" icon-on="ion-social-usd", icon-off="ion-social-usd-outline" ui-sref="app.finance">
+		<ion-nav-view name="tab-finance"></ion-nav-view>
+	</ion-tab>
 	<ion-tab title="More" icon-on="ion-ios-more" icon-off="ion-ios-more-outline" ui-sref="app.more">
 		<ion-nav-view name="tab-more"></ion-nav-view>
 	</ion-tab>

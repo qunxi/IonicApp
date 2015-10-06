@@ -2,9 +2,9 @@
 
 	angular.module('mobileApp').controller('LoginCtrl', LoginCtrl);
 
-	LoginCtrl.$inject = ['authToken', 'authenticate', '$ionicPopup'];
+	LoginCtrl.$inject = ['authToken', 'authenticate', '$ionicPopup', '$ionicPlatform','$ionicHistory'];
 
-	function LoginCtrl(authToken, authenticate, $ionicPopup){
+	function LoginCtrl(authToken, authenticate, $ionicPopup, $ionicPlatform, $ionicHistory){
 		var vm = this;
 
 		vm.password = '';
@@ -44,10 +44,15 @@
                     });
                 }
         	});
-        	
-        
-
         }
+
+        $ionicPlatform.onHardwareBackButton(function() {
+            console.log('dd');
+        });
+        /*vm.showHistory = function(){
+            console.log($ionicHistory.viewHistory());
+            $ionicHistory.viewHistory();
+        };*/
 	}
 
 
