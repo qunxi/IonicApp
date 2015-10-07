@@ -35,24 +35,21 @@
                 return;
         	}
 
-        	var res = authenticate.login(vm.username, vm.password)
-        	.then(function(error){
-                if (error) {
+            function loginCallback(data){
+                if(data){
                     $ionicPopup.alert({
                         title: 'ErrorMessage',
-                        content: error.status + ', ' + error.message
+                        content: data.status + ', ' + data.message
                     });
                 }
-        	});
+                else{
+                    $state.go('app.home');
+                }
+            }
+
+        	authenticate.login(vm.username, vm.password, loginCallback);
         }
 
-        $ionicPlatform.onHardwareBackButton(function() {
-            console.log('dd');
-        });
-        /*vm.showHistory = function(){
-            console.log($ionicHistory.viewHistory());
-            $ionicHistory.viewHistory();
-        };*/
 	}
 
 

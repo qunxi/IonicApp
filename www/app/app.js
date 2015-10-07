@@ -11,7 +11,7 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
     });
 
     $ionicPlatform.registerBackButtonAction(function(e){
-        //e.preventDefault();
+       
         if($state.current.name === 'app.login'){
             $state.go('app.home');
         }
@@ -20,6 +20,8 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
         }
     }, 101);
 })
+
+.constant('API_URL', 'http://localhost:3000/api/')
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
     $stateProvider
@@ -40,6 +42,8 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
         .state('app.home', {
             url: '/home',
             cache: false,
+            //controller: 'HomeCtrl as vm',
+            //controllerAs: 'vm',
             views: {
                 'tab-home': {
                     templateUrl: 'app/home/home.html'
@@ -66,7 +70,7 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
                 }
             }
         })
-         .state('app.finance', {
+        .state('app.finance', {
             url: '/finance',
             cache: false,
             views: {
@@ -75,10 +79,18 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
                 }
             }
         })
+        .state('app.search', {
+            url: '/finance/search',
+            views: {
+                'tab-finance': {
+                    templateUrl: 'app/finance/search.html'
+               }
+            }
+        })
         .state('app.login', {
 
             url: '/login',
-            //templateUrl: 'app/user/login.html'
+           
             views:{
                 'tab-account':{
                     templateUrl: 'app/user/login.html'

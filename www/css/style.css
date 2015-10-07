@@ -8,3 +8,23 @@
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-weight: 300;
 }
+
+
+/*it's conflict with ionic style*/
+/*.button.icon{
+	
+	min-height: 35px;
+	min-width: 35px;
+
+}
+
+.button.icon:before{
+	line-height: 35px;
+	min-height: 35px;
+}
+
+.button.icon:after{
+	line-height: 35px;
+	min-height: 35px;
+
+}*/

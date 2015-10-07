@@ -5,11 +5,11 @@
         .module('custom-service')
         .factory('authenticate', authenticate);
 
-    authenticate.$inject = ['$http', 'authToken', '$state'];
+    authenticate.$inject = ['$http', 'authToken', '$state', 'API_URL'];
 
-    function authenticate($http, authToken, $state) {
+    function authenticate($http, authToken, $state, API_URL) {
 
-        var API_URL = "http://localhost:3000/"; //according concret project to setup
+        //var API_URL = "http://localhost:3000/"; //according concret project to setup
 
         var service = {
             login: login,
@@ -20,20 +20,16 @@
         return service;
 
 
-        function login(username, password) {
+        function login(username, password, callback) {
             return $http.post(API_URL + 'login', {
                     username: username,
                     password: password
                 })
-                .then(function success(res) {
-                        authSuccessful(res.data);
+                .then(function success(res, callback) {
+                        authSuccessful(res.data, callback);
                     },
-                    function error(res) {
-                    	console.log(res);
-                    	return {
-                    		status: res.status,
-                    		message: res.data.message
-                    	};
+                    function error(res, callback) {
+                    	authFailed(res, callback);
                     });
         }
 
@@ -42,27 +38,34 @@
             authToken.removeCurrentUser();
         }
 
-        function register(username, password, email) {
+        function register(username, password, email, callback) {
            
             $http.post(API_URL + 'register', {
                     username: username,
                     password: password,
                     email: email })
-            	 .then(function success(res) { authSuccessful(res.data); }, function error(res) {
-                        console.log(res.data.message);
-                        return {
-                    		status: res.status,
-                    		message: res.data.message
-                    	};
+            	 .then(function success(res) { 
+                        authSuccessful(res.data, callback);
+                    }, function error(res) {
+                        authFailed(res, callback);
                     });
         }
 
-        function authSuccessful(res) {
+        function authFailed(res, callback){
+            callback({
+                status: res.status,
+                message: res.data.message
+            });
+        }
+
+        function authSuccessful(data, callback) {
         	
-            authToken.setToken(res.token);
+            authToken.setToken(data.token);
            
-            authToken.setCurrentUser(res.user);
-            $state.go('app.home');
+            authToken.setCurrentUser(data.user);
+
+            callback();
+            //$state.go('app.home');
         }
     }
 

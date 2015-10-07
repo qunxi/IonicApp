@@ -90,19 +90,24 @@
                 });
                 return;
             }
-            
-            authenticate
-            .register(vm.registerData.username.model, 
-            	      vm.registerData.password.model, vm.registerData.email.model)
-            .then(function(error){
-                if (error) {
-                    $ionicPopup.alert({
-                        title: 'ErrorMessage',
-                        content: error.status + ', ' + error.message
-                    });
-                }
-            });
+        
+        function registerCallback(data){
+            if(data){
+                $ionicPopup.alert({
+                    title: 'ErrorMessage',
+                    content: data.status + ', ' + data.message
+                });
+            }
+            else{
+                $state.go('app.home');
+            }
         }
-    }
+
+        authenticate.register(vm.registerData.username.model, 
+            	              vm.registerData.password.model, 
+                              vm.registerData.email.model,
+                              registerCallback);
+        }
+}
 
 })();
