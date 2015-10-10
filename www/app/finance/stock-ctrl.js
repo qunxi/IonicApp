@@ -2,13 +2,14 @@
 	//'use strict';
 	angular.module('mobileApp').controller('StockCtrl', StockCtrl);
 
-	StockCtrl.$inject = ['$http'];
+	StockCtrl.$inject = ['$http', 'CacheFacotry'];
 
 
 
 
-	function StockCtrl($http){
+	function StockCtrl($http, CacheFacotry){
 		var vm = this;
+		
 		vm.getRss = function(){
 			$http.get('http://martinfowler.com/feed.atom')
 				.then(function sucess(res){
@@ -18,49 +19,11 @@
 				});
 		};
 		
-		vm.getStock = function(){
-			
 
-			/*$http.get('http://m.shukugang.com/hqservice/financeData/queryMarket?code=300059&mode=daily&dt=&incr=0'
-				)
-				.then(function(res){
-					console.log(res);
-				}, function(res){
-					//console.log(res);
-				});*/
-			
-			//why do i don't use jsonp, because the tranfer-encoding if chunked, jsonp can't support 
-			//so use nodejs as intermeida
-			/*$http.get('http://localhost:3000')
-				.then(function(res){
-					console.log(res);
-				}, function(res){
-					//console.log(res);
-				});*/
-			
-
-			/*var text = '';
-			$http.jsonp('http://m.shukugang.com/hqservice/financeData/queryMarket?code=300059')
-				 .then(function(res){
-				 	text += res;
-				 	//console.log(data);
-				 });*/
-
-			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "http://m.shukugang.com/hqservice/financeData/queryMarket?code=300059", true);
-			/*xhr.onprogress = function () {
-			  console.log("PROGRESS:", xhr.responseText);
-			};*/
-			xhr.send();
-
-			xhr.onreadystatechange=function()
-			{
-			  if (xhr.readyState==4 && xhr.status==200)
-			  {
-			     console.log(xhr.responseText);
-			  }
-			};
+		vm.favorStocks = function(){
+			CacheFacotry.get('');
 		};
+		
 	}
 })();
 

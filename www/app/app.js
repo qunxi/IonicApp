@@ -1,4 +1,4 @@
-angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
+angular.module('mobileApp', ['ionic', 'angular-cache', 'custom-directive', 'custom-service'])
 
 .run(function($ionicPlatform, $state, $ionicHistory) {
     $ionicPlatform.ready(function() {
@@ -23,22 +23,28 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
 
 .constant('API_URL', 'http://localhost:3000/api/')
 
-.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider) {
-    $stateProvider
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider, CacheFactoryProvider) {
+   
+    //setup local storage
+    angular.extend(CacheFactoryProvider.defaults, {maxAge: 24 * 60 * 1000});
+    
+    configRouterProvider($stateProvider, $urlRouterProvider);
+
+
+    configIonicDefaultTheme($ionicConfigProvider);
+   
+    //
+    $httpProvider.interceptors.push('authInterceptor');
+   
+});
+
+function configRouterProvider($stateProvider, $urlRouterProvider){
+     $stateProvider
         .state('app', {
             url: '/app',
             abstract: true,
             templateUrl: 'app/layout/layout.html'
         })
-        /*.state('app.home2', {
-            url: '/home2',
-            cache: false,
-            views: {
-                'tab-home2': {
-                    templateUrl: 'app/home/home2.html'
-                }
-            }
-        })*/
         .state('app.home', {
             url: '/home',
             cache: false,
@@ -108,11 +114,11 @@ angular.module('mobileApp', ['ionic', 'custom-directive', 'custom-service'])
         });
 
     $urlRouterProvider.otherwise('/app/home');
+}
 
-    //change default platform setup for android
+function configIonicDefaultTheme($ionicConfigProvider){
+     //change default platform setup for android
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.navBar.alignTitle('center');
 
-    $httpProvider.interceptors.push('authInterceptor');
-   
-});
+}
