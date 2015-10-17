@@ -81,12 +81,13 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
             cache: false,
             views: {
                 'tab-finance': {
-                    templateUrl: 'app/finance/stock.html'
+                    templateUrl: 'app/finance/favorStocks.html'
                 }
             }
         })
         .state('app.search', {
             url: '/finance/search',
+            cache: false,
             views: {
                 'tab-finance': {
                     templateUrl: 'app/finance/search.html'

@@ -3,89 +3,98 @@
 
 	angular.module('mobileApp').controller('SearchCtrl', SearchCtrl);
 
-	SearchCtrl.$inject = ['stockService', 'CacheFactory'];
+	SearchCtrl.$inject = ['stockService', 'cacheManager'];
 
-	function SearchCtrl(stockService, CacheFactory){
+	function SearchCtrl(stockService, cacheManager){
 		var vm = this;
 
 		vm.stockName = '';
-		vm.searchResult = [];
-
+		vm.searchResult = cacheManager.getSearchHistoriesCache();
+		
 		vm.searchAutoComplete = function(){
-		 	
-		    stockService.searchAutoComplete(vm.stockName, searchCallback);					 	
+		   stockService.searchAutoComplete(vm.stockName, function(data){
+		   		vm.searchResult = angular.copy(data);
+		    });					 	
 		};
 
 		vm.setFavorite = function(stock){
 			stock.checked = !stock.checked;
+			
 			if(stock.checked){
-				addFavoriteHistory(stock);
+				stockService.addFavoriteHistory(stock);
 			}
 			else{
-				removeFavoriteHistory(stock);
+				stockService.removeFavoriteHistory(stock);
 			}
 		};
 
-		//implement 
-		var favorHistoryCacheId = 'favorHistoryCache';
-		var favorHistoryDataKey = 'faoverHistoryData';
-		var favorHistoryData;	
-		var favorHistoryCache; 
+		vm.removeSearchedCache = function(){
+			stockService.removeSearchHistoriesCache();
+			vm.searchResult = stockService.getSearchHistoriesCache();
+		};
 		
-		function getFavorHistoryCache(){
-			
-			if(favorHistoryCache){
-				return favorHistoryCache;
-			}
-
-			if(!CacheFactory.get(favorHistoryCacheId)){
-				CacheFactory.createCache(favorHistoryCacheId, {
-						storageMode: 'localStorage',
-						deleteOnExpire: 'aggressive',
-        				recycleFreq: 60000
-        		});
-			}
-
-			favorHistoryCache = CacheFactory.get(favorHistoryCacheId);
-
-			return favorHistoryCache;
-		}
-
-		function getFavoriteHistory(){
-			if(!favorHistoryData){
-				favorHistoryData = getFavorHistoryCache().get(favorHistoryDataKey);
-			}
-			return favorHistoryData;
-		}
-
+		/*var searchHistoriesData = cacheManager
+									.getSearchHistoriesCache();
+									
+		var favorStocksData = cacheManager
+									.getFavorStocksCache();
+		
+				
 		function removeFavoriteHistory(stock){
+			if(searchHistoriesData){
+					var item = _.chain(searchHistoriesData)
+						 		.find(function(n){
+						 			return n.code === stock.code;
+						 		})
+						 		.value();
+					console.log(item);
+					if(!!item){
+						item.checked = false;
+						cacheManager.updateSearchHistoriesCache(searchHistoriesData);	
+					}
+			}
+			
 
-			if(getFavoriteHistory()){
+			if(favorStocksData){
 
-				favorHistoryData =
-						_.chain(favorHistoryData)
+				favorStocksData =
+						_.chain(favorStocksData)
 				 		 .remove(function(n){
 							 return n.code === stock.code;
 						  })
 				 		 .value();
 
-				getFavorHistoryCache().put(favorHistoryDataKey, favorHistoryData);
+				cacheManager.updateFavorStocksCache(favorStocksData);
 			}
 		}
 
 		function addFavoriteHistory(stock){
 
-			if(!getFavoriteHistory()){
-				favorHistoryData = [];
+			if(!searchHistoriesData){
+				searchHistoriesData = [];
 			}
-			
-			favorHistoryData.push({
-				'code': stock.code,
-				'name': stock.name,
-				'checked': true
-			});
 
-			getFavorHistoryCache().put(favorHistoryDataKey, favorHistoryData);
+			if(!favorStocksData){
+				favorStocksData = [];
+			}
+
+			var addStock = {
+				code: stock.code,
+				name: stock.name,
+				checked: true
+			};
+			
+			favorStocksData.push(addStock);
+			cacheManager.updateFavorStocksCache(favorStocksData);
+
+		    var isExist = _.chain(searchHistoriesData)
+						   .find(function(n){
+							 	return n.code === stock.code;
+						   }).value();
+			if(!isExist){
+				searchHistoriesData.push(addStock);
+				cacheManager.updateSearchHistoriesCache(searchHistoriesData);
+			}
 		}
 
 
@@ -94,23 +103,23 @@
 			var result = _.chain(data)
 						  .map(function(item){
 						 	return {
-						 		'code' : Number(item.code.split('_')[0]),
-						 		'name' : item.name,
-						 		'checked': false}; 
+						 		code : Number(item.code.split('_')[0]),
+						 		name : item.name,
+						 		checked: false}; 
 						 	})
 						  .value();
-
-			filterFavorList(result);
+			
+			filterHistoriesList(result);
 		}
 
-		function filterFavorList(result){
+		function filterHistoriesList(result){
 			
-			if(getFavoriteHistory()){
+			if(searchHistoriesData){
 				
 				for(var i = 0; i < result.length; ++i){
 					var isDuplicate = false;
-					for(var j = 0; j < favorHistoryData.length; ++j){
-						if(result[i].code === favorHistoryData[j].code){
+					for(var j = 0; j < searchHistoriesData.length; ++j){
+						if(result[i].code === searchHistoriesData[j].code){
 							isDuplicate = true;
 						}
 					}
@@ -120,12 +129,12 @@
 						console.log('find', result);
 					}
 				}
-
-				vm.searchResult = result.concat(favorHistoryData);
+				
+				vm.searchResult = result.concat(searchHistoriesData);
 			}
 			else{
 				vm.searchResult = result;
 			}
-		}
+		}*/
 	}
 })();
