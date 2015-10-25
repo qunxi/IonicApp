@@ -1,0 +1,9 @@
+<ion-view view-title="{{vm.title}}" ng-controller="FeedDetailsCtrl as vm">
+	<ion-content >
+	<!--<iframe width="780px" height="90%" src="{{vm.url}}" scrolling="auto"></iframe>-->
+		<div>
+			<h3>{{vm.title}}</h3>
+			<div class="entryBody" ng-bind-html="vm.content"></div>
+		</div>
+	</ion-content>
+</ion-view>

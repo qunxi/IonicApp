@@ -4,65 +4,62 @@
     angular.module('custom-service')
         .factory('authToken', authToken);
 
-    authToken.$inject = ['$window'];
+    authToken.$inject = ['CacheFactory'];
 
-    function authToken($window) {
+    function authToken(CacheFactory) {
 
-        var storage = $window.localStorage;
-        var cacheToken;
+        //var cacheToken;
         var cacheUser;
-        var userToken = "userToken";
         var userInfo = "userInfo";
+        var userCache = "userCache";
+
 
         var service = {
-            setToken: setToken,
             getToken: getToken,
-            removeToken: removeToken,
             isAuthenticated: isAuthenticated,
-            getCurrentUser: getCurrentUser,
+            getCurrentUserInfo: getCurrentUserInfo,
             setCurrentUser: setCurrentUser,
             removeCurrentUser: removeCurrentUser
         };
 
+        var cache = CacheFactory.createCache(userCache, {
+            storageMode: 'localStorage',
+            deleteOnExpire: 'aggressive'
+        });
+
+ 
         return service;
 
-        function getCurrentUser() {
-        	if(!cacheUser)
-        		cacheUser =  JSON.parse(storage.getItem(userInfo));
-        	return cacheUser;
-        }
 
-        function removeCurrentUser(){
-        	cacheUser = null;
-        	storage.removeItem(userInfo);
-        }
-
-        function setCurrentUser(user) {
-        	
-        	cacheUser = user;
-        	storage.setItem(userInfo, JSON.stringify(user));
-        }
-
-        function setToken(token) {
-            cacheToken = token;
-            storage.setItem(userToken, token);
+        function getCurrentUserInfo(){
+            if(!cacheUser){
+               cacheUser = cache.get(userInfo);
+              
+            }
+            return !cacheUser ? null : cacheUser.user;
         }
 
         function getToken() {
-            if (!cacheToken){
-                cacheToken = storage.getItem(userToken);
+            if(!cacheUser){
+                cacheUser = cache.get(userInfo);
             }
-            
-            return cacheToken;
+            return !cacheUser ? null : cacheUser.token;
+        }
+
+
+        function removeCurrentUser(){
+        	cacheUser = null;
+        	cache.remove(userInfo);
+        }
+
+        function setCurrentUser(user) {
+        	cacheUser = user;
+        	cache.put(userInfo, user);
         }
 
         function isAuthenticated() {
             return !!getToken();
         }
 
-        function removeToken() {
-            cacheToken = null;
-            storage.removeItem(userToken);
-        }
     }
 })();

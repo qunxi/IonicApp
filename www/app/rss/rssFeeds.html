@@ -1,0 +1,27 @@
+<ion-view view-title="{{vm.viewTitle}}" ng-controller="RSSFeedCtrl as vm">
+	<ion-content>
+		<ion-refresher pulling-text="Pull to refresh" on-refresh="vm.refreshFeeds()">
+    	</ion-refresher>
+		<div class="list">
+			<div class="item item-thumbnail-right item-text-wrap" 
+				 ng-repeat="feed in vm.rssFeeds"
+				  ui-sref="app.feedDetails({title: feed.title, id: feed._id})">
+				 	
+				 	 	<img ng-src="{{feed.thumbPic}}"/>
+				     	<div class="title">{{feed.title}}</div>
+						<h3 class="item-date">{{feed.updated}}</h3>
+				      		<!--<i class="col ion-ios-close-outline item-ignore"></i>-->
+				     
+				   
+					    <!--  <i class="col ion-sad-outline function-icon">hate</i>
+				     
+					  <!--<i class="icon ion-chevron-right icon-accessory" ng-click="vm.showContent(feed.content)"></i>-->
+
+
+					<!--<h3>{{feed.title}}</h3>
+					<h4>{{feed.updated}}</h4>
+					<i class="icon ion-chevron-right icon-accessory" ng-click="vm.showContent(feed.content)"></i>-->
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

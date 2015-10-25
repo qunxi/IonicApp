@@ -1,4 +1,4 @@
-angular.module('mobileApp', ['ionic', 'angular-cache', 'custom-directive', 'custom-service'])
+angular.module('mobileApp', ['ionic', 'ngCordova', 'angular-cache', 'custom-directive', 'custom-service'])
 
 .run(function($ionicPlatform, $state, $ionicHistory) {
     $ionicPlatform.ready(function() {
@@ -21,12 +21,12 @@ angular.module('mobileApp', ['ionic', 'angular-cache', 'custom-directive', 'cust
     }, 101);
 })
 
+//.constant('API_URL', 'https://dry-badlands-9547.herokuapp.com/api/')
 .constant('API_URL', 'http://localhost:3000/api/')
-
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider, CacheFactoryProvider) {
    
     //setup local storage
-    angular.extend(CacheFactoryProvider.defaults, {maxAge: 24 * 60 * 1000});
+    angular.extend(CacheFactoryProvider.defaults, {maxAge: 30 * 60 * 1000});
     
     configRouterProvider($stateProvider, $urlRouterProvider);
 
@@ -94,10 +94,44 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
                }
             }
         })
+        .state('app.rss', {
+            url: '/rss',
+            cache: false,
+            views: {
+                'tab-rss': {
+                    templateUrl: 'app/rss/catelog.html'
+                }
+            }
+        })
+        .state('app.rssFeeds', {
+            url: '/rss/feeds/:catelogId/:catelogTitle',
+            cache: false,
+            views: {
+                'tab-rss': {
+                    templateUrl: 'app/rss/rssFeeds.html'
+                }
+            }
+        })
+        .state('app.feedDetails', {
+            url: '/rss/feedDetails/:title/:id',
+            cache: false,
+            views: {
+                'tab-rss': {
+                    templateUrl: 'app/rss/feedDetails.html'
+                }
+            }
+        })
+        .state('app.subRss', {
+            url: '/rss/sub',
+            cache: false,
+            views: {
+                'tab-rss': {
+                    templateUrl: 'app/rss/subRss.html'
+                }
+            }
+        })
         .state('app.login', {
-
             url: '/login',
-           
             views:{
                 'tab-account':{
                     templateUrl: 'app/user/login.html'

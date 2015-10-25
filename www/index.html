@@ -14,9 +14,11 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!--<script src="lib/lodash/lodash-Copy.js"></script>-->
     <script src="lib/lodash/lodash.min.js"></script>
     <script src="lib/angular-cache/angular-cache.min.js"></script>
-    
+    <script src="lib/ng-cordova/ng-cordova.min.js"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
@@ -27,14 +29,16 @@
     <script src="custom/service/auth/authenticate.js"></script>
     <script src="custom/directive/iconGrid.js"></script>
     <script src="custom/directive/validateInput.js"></script>
-    
+    <script src="custom/service/loadingSrv.js"></script> 
     <!-- your app's js -->
     <script src="app/app.js"></script>
 
     <!-- service -->
     <script src="app/utils/cacheManager.js"></script>
+    <script src="app/utils/format.js"></script>
     <script src="app/finance/stock-srv.js"></script>
-   
+    <script src="app/rss/rss-cache.js"></script>
+    <script src="app/rss/rss-service.js"></script>
     <!-- controller -->
     <script src="app/home/home-ctrl.js"></script>
     <script src="app/finance/favorStocks-ctrl.js"></script>
@@ -43,11 +47,13 @@
     <script src="app/user/account-ctrl.js"></script>
     <script src="app/user/login-ctrl.js"></script>
     <script src="app/more/more-ctrl.js"></script>
-    <script src="app/home/home2-ctrl.js"></script>
+    <script src="app/rss/rssCatelog-ctrl.js"></script>
+    <script src="app/rss/rssFeeds-ctrl.js"></script>
+    <script src="app/rss/feedDetails-ctrl.js"></script>
   </head>
   <body ng-app="mobileApp">
     
-     <ion-nav-bar class="bar-royal">
+    <ion-nav-bar class="bar-royal">
       <ion-nav-back-button>
       </ion-nav-back-button>
     </ion-nav-bar>

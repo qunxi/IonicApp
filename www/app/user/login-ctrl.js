@@ -2,9 +2,9 @@
 
 	angular.module('mobileApp').controller('LoginCtrl', LoginCtrl);
 
-	LoginCtrl.$inject = ['authToken', 'authenticate', '$ionicPopup', '$ionicPlatform','$ionicHistory'];
+	LoginCtrl.$inject = ['authToken', '$state', 'authenticate', '$ionicPopup', '$ionicPlatform','$ionicHistory'];
 
-	function LoginCtrl(authToken, authenticate, $ionicPopup, $ionicPlatform, $ionicHistory){
+	function LoginCtrl(authToken, $state, authenticate, $ionicPopup, $ionicPlatform, $ionicHistory){
 		var vm = this;
 
 		vm.password = '';

@@ -28,3 +28,115 @@
 	min-height: 35px;
 
 }*/
+
+/*catelog*/
+.item .checkbox{
+    float: left;
+    padding: 7px 16px 7px 0;
+}
+
+/*feed details style*/
+.item .feed-date
+{
+	color: #ddd;
+	/*position: absolute;
+	bottom:0;
+	padding-bottom: 10px;
+    padding-top: 8px;
+}
+
+.item .function-icon{
+    display: block;
+    height: 30%;
+    float: left;
+    padding: 1px;
+    /*position: absolute;
+    float: left;
+    bottom:0;
+    padding-top: 8px;
+    padding-bottom: 10px;*/
+}
+.item .item-date{
+    color: #aaa;
+    position: absolute;
+    bottom: 10px;
+    
+}
+
+.item .item-ignore{
+    color: #aaa;
+    position: absolute;
+    left: 150px;
+    bottom: 10px;
+}
+
+.item .title{
+   font-weight: bolder;
+   padding-top: 5px;
+   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  
+}
+
+
+
+
+/*feed details*/
+.entryBody{
+	color: #333;
+	font-size: 0.9rem;
+	word-break: break-word;
+	/*font-family: "Slab Serif", sans-serif;*/
+	-webkit-font-smoothing: antialiased;
+    line-height: 1.75em;
+	max-width: 647px; 
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.entryBody p{
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.entryBody a{
+	color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid #CCC;
+}
+
+.entryBody a:visited {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid #CCC;
+}
+
+.entryBody h4{
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: sans-serif;
+    text-rendering: optimizeLegibility;
+    line-height: 1.5rem;
+    text-transform: none;
+    clear: both;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+    color: #333333;
+}
+
+.entryBody img{
+
+    max-width: 100%;
+ 	/*width: 100%;*/
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: block;
+    border-radius: 3px;
+    border: 1px solid rgb(239, 239, 239);
+
+}

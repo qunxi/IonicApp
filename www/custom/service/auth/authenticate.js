@@ -25,16 +25,16 @@
                     username: username,
                     password: password
                 })
-                .then(function success(res, callback) {
+                .then(function success(res) {
                         authSuccessful(res.data, callback);
                     },
-                    function error(res, callback) {
+                    function error(res) {
                     	authFailed(res, callback);
                     });
         }
 
         function logout() {
-            authToken.removeToken();
+            
             authToken.removeCurrentUser();
         }
 
@@ -59,10 +59,10 @@
         }
 
         function authSuccessful(data, callback) {
-        	
-            authToken.setToken(data.token);
+        	console.log(data);
+            //authToken.setToken(data.token);
            
-            authToken.setCurrentUser(data.user);
+            authToken.setCurrentUser(data);
 
             callback();
             //$state.go('app.home');

@@ -56,9 +56,10 @@
 
 		vm.isAuthenticated = authToken.isAuthenticated();
 		
-		var user = authToken.getCurrentUser();
+		var user = authToken.getCurrentUserInfo();
 
-		if(user !== null){
+		if(user){
+			
 			vm.username = user.username;
 		}
 	}

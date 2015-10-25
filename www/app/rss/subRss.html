@@ -1,0 +1,11 @@
+<ion-view view-title="Subscrible" ng-controller="RSSCatelogCtrl as vm">
+	<ion-content class="has-header">
+		<label class="item item-input">
+			<input type="text" placeholder="input rss address" ng-model="vm.link">	
+		</label>
+		<button class="button button-block button-positive" ng-click="vm.subscrible(vm.link)">
+			Subcrible RSS
+		</button>	
+	</ion-content>
+
+</ion-view>
