@@ -22,8 +22,8 @@
 		};*/
 
         vm.refreshFeeds = function() {
-
-            rssService.getFeedsByCatelogId($stateParams.catelogId)
+            var limit = 5;
+            rssService.getFeedsByCatelogId($stateParams.catelogId, vm.rssFeeds.length / limit, limit)
                 .then(function(data) {
                         vm.rssFeeds = angular.copy(preProcessFeedList(data));
                     },
@@ -40,7 +40,7 @@
             return	_.chain(data)
 	                .map(function(n) {
 	                    n.title = formatService.cuttingString(n.title, 50);
-	                    n.thumbPic = n.images.length > 0 ? n.images[0] : '';
+	                    n.thumbPic = n.images.length > 0 ? n.images[0] : '/img/noPictrue.jpg';
 	                    n.updated = formatService.formatDate(n.updated);
 	                    return n;
 	                })

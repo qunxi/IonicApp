@@ -1,0 +1,10 @@
+<ion-view view-title="Feedback"  ng-controller="MoreCtrl as vm">
+	<ion-content>
+		<div class="list list-inset">
+			<label class="item item-input">
+				<textarea rows="5" placeholder="say something to me" ng-model="vm.feedback"></textarea>
+			</label>
+			<button class="button button-block button-positive" ng-click="vm.submitFeedback()">Submit</button>
+		</div>	
+	</ion-content>
+</ion-view>

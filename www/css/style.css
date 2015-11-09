@@ -31,31 +31,12 @@
 
 /*catelog*/
 .item .checkbox{
-    float: left;
-    padding: 7px 16px 7px 0;
+    position: absolute;
+    right: 10px;
+    top: 16px;
 }
 
 /*feed details style*/
-.item .feed-date
-{
-	color: #ddd;
-	/*position: absolute;
-	bottom:0;
-	padding-bottom: 10px;
-    padding-top: 8px;
-}
-
-.item .function-icon{
-    display: block;
-    height: 30%;
-    float: left;
-    padding: 1px;
-    /*position: absolute;
-    float: left;
-    bottom:0;
-    padding-top: 8px;
-    padding-bottom: 10px;*/
-}
 .item .item-date{
     color: #aaa;
     position: absolute;
@@ -71,16 +52,41 @@
 }
 
 .item .title{
-   font-weight: bolder;
+   font-weight: bold;
    padding-top: 5px;
    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-  
 }
 
 
 
-
 /*feed details*/
+.floatTool{
+    padding: 0px 10px 0px 10px;
+
+    display: block;
+}
+
+.origin{
+   padding: 10px;
+   color: blue; 
+}
+
+
+.floatTool li{
+    padding: 0 5px;
+    display: block;
+    font-size: 18px;
+    color: #;
+    line-height: 30px;
+    float: left;
+}
+
+.floatTool li span{
+    font-size: 13px;
+    padding: 0 5px;
+}
+
+
 .entryBody{
 	color: #333;
 	font-size: 0.9rem;

@@ -26,7 +26,7 @@ angular.module('mobileApp', ['ionic', 'ngCordova', 'angular-cache', 'custom-dire
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider, CacheFactoryProvider) {
    
     //setup local storage
-    angular.extend(CacheFactoryProvider.defaults, {maxAge: 30 * 60 * 1000});
+    angular.extend(CacheFactoryProvider.defaults, {maxAge: 30 * 24 * 60 * 60 * 1000});
     
     configRouterProvider($stateProvider, $urlRouterProvider);
 
@@ -66,6 +66,22 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
             }/*,
             controller: 'AccountCtrl',
             controllerAs: 'vm'*/
+        })
+        .state('app.about', {
+            url: '/more/about',
+            views: {
+                'tab-more': {
+                    templateUrl: 'app/more/about.html'
+                }
+            }
+        })
+        .state('app.feedback', {
+            url: '/more/feedback',
+            views: {
+                'tab-more': {
+                    templateUrl: 'app/more/feedback.html'
+                }
+            }
         })
         .state('app.more', {
             url: '/more',
@@ -113,7 +129,7 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
             }
         })
         .state('app.feedDetails', {
-            url: '/rss/feedDetails/:title/:id',
+            url: '/rss/feedDetails/:title/:id/:link',
             cache: false,
             views: {
                 'tab-rss': {
@@ -121,17 +137,26 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
                 }
             }
         })
-        .state('app.subRss', {
-            url: '/rss/sub',
+        .state('app.rssSearch', {
+            url: '/rss/rssSearch/:query',
+            views:{
+                'tab-rss':{
+                    templateUrl: 'app/rss/rssSearch.html'
+                }
+            }
+        })
+        .state('app.rssSubcrible', {
+            url: '/rss/subcrible',
             cache: false,
             views: {
                 'tab-rss': {
-                    templateUrl: 'app/rss/subRss.html'
+                    templateUrl: 'app/rss/rssSubcrible.html'
                 }
             }
         })
         .state('app.login', {
             url: '/login',
+            cache: false,
             views:{
                 'tab-account':{
                     templateUrl: 'app/user/login.html'
@@ -141,11 +166,6 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
         .state('register', {
             url: '/register',
             templateUrl: 'app/user/register.html'
-            /*views: {
-                'tab-home': {
-                    templateUrl: 'app/user/register.html'
-                }
-            }*/
         });
 
     $urlRouterProvider.otherwise('/app/home');

@@ -3,7 +3,8 @@
 
 	angular.module('mobileApp').controller('RSSCatelogCtrl', RSSCatelogCtrl);
 
-	RSSCatelogCtrl.$inject = ['rssService','$scope', 'authToken', '$ionicPopup', '$state', 'loadingService'];
+	RSSCatelogCtrl.$inject = ['rssService', '$scope', 'authToken', 
+							  '$ionicPopup', '$state', 'loadingService'];
 
 	function RSSCatelogCtrl(rssService, $scope, authToken, $ionicPopup, $state, loadingService){
 		var vm = this;
@@ -45,9 +46,9 @@
 				$scope.$broadcast('scroll.refreshComplete');
 				return;
 			}
-            rssService.getCatelogs(authToken.getToken())
+			var limit = 5;
+            rssService.getCatelogs(authToken.getToken(), vm.rssCatelogs.length / limit, limit )
                 .then(function(data) {
-                		console.log(data);
                         vm.rssCatelogs = angular.copy(data);
                     },
                     function(err) {}
@@ -68,8 +69,8 @@
 					if(vm.removeItemList.length){
 						rssService.removeCatelogs(vm.removeItemList)
 						  .then(function(data){
-						  		console.log(data);
-						  		if(!data || !data.length){
+						  		
+						  		if(data || data.length){
 						  			vm.removeMode = false;
 						  		}
 						  	 	vm.rssCatelogs = data;

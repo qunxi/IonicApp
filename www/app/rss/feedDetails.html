@@ -1,9 +1,19 @@
 <ion-view view-title="{{vm.title}}" ng-controller="FeedDetailsCtrl as vm">
+	<ion-nav-buttons side="right">
+		<button class="button button-clear icon ion-share"></button>
+	</ion-nav-buttons>
 	<ion-content >
 	<!--<iframe width="780px" height="90%" src="{{vm.url}}" scrolling="auto"></iframe>-->
-		<div>
-			<h3>{{vm.title}}</h3>
+			<h3 class="padding">{{vm.title}}</h3>
+			<ul class="floatTool">
+				<li class="icon ion-ios-star-outline"><span>Favorite</span></li>
+				<li class="icon ion-sad-outline"><span>Dislike</span></li>
+				<li class="icon ion-ios-chatboxes-outline"><span>Comment</span></li>
+				<!--<li class="icon ion-share"><span>share</span></li>-->
+			</ul>
+			<div style="clear: both"></div>
 			<div class="entryBody" ng-bind-html="vm.content"></div>
-		</div>
+			<div ng-click="vm.go2origin()" class="origin">Origin ... </div>
+		
 	</ion-content>
 </ion-view>

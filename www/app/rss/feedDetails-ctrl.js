@@ -3,38 +3,30 @@
 
 	angular.module('mobileApp').controller('FeedDetailsCtrl', FeedDetailsCtrl);
 
-	FeedDetailsCtrl.$inject = ['$stateParams', 'rssService', '$sce'];
+	FeedDetailsCtrl.$inject = ['$stateParams', 'rssService', '$cordovaInAppBrowser', 'loadingService'];
 	
-	function FeedDetailsCtrl($stateParams, rssService, $sce){
+	function FeedDetailsCtrl($stateParams, rssService, $cordovaInAppBrowser, loadingService){
 		var vm = this;
 		
-		var options = {
-			location: 'yes',
-			clearcache: 'yes',
-			toolbar: 'no'
-		};
-		
 		vm.title = $stateParams.title;
-		//vm.feedId = $stateParams.id;
-		console.log($stateParams);
+		
+		vm.go2origin = function(){
+			var options = {
+				location: 'yes',
+				clearcache: 'yes',
+				toolbar: 'no'
+			};
+			
+			$cordovaInAppBrowser.open($stateParams.link, '_blank', options);
+		};
 
+		loadingService.show();
 	    rssService.getFeedCotentById($stateParams.id)
-	    					   .then(function(content){
-	    					   		vm.content = content;
-	    					   		
-	    					   		//var reg = new RegExp('^<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>$', 'gi');
-            						//return reg.test(vm.registerData.username.model);
-	    					   		var reg =/<img\s[^>]*?src\s*=\s*['"]([^'"]*?)['"][^>]*?>/gi;
-
-	    					   		while(reg.exec(vm.content )){
-	    					   			console.log(RegExp.$1);
-	    					   		}
-	    					   		//reg.test(content);
-	    					   		//console.log(RegExp.$1);
-	    					   		//var images = reg.exec(vm.content );
-        							//var images = content.match(reg);
-        							//console.log(images);
-	    					   });
+	    		  .then(function(content){
+	    			    vm.content = content;
+	    			    console.log(content);
+	    			    loadingService.hide();
+	    		   });
 
 
 		//$cordovaInAppBrowser.open('http://www.baidu.com', '_blank', options);

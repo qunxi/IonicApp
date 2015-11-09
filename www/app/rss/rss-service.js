@@ -12,7 +12,9 @@
 		var service = {
 			subscrible : subscrible,
 			getCatelogs: getCatelogs,
+			addRssCatelog: addRssCatelog,
 			removeCatelogs: removeCatelogs,
+			searchRssCatelog: searchRssCatelog,
 			getFeedsByCatelogId: getFeedsByCatelogId,
 			getLocalCatelogs: getLocalCatelogs,
 			getLocalFeedList: getLocalFeedList,
@@ -27,11 +29,11 @@
 			
 			return $http.post(url, {token: authToken.getToken(), link:address})
 						.then(function(res){
-							console.log(res);
 							return updateRssCache(res.data);
 						},
-						function(error){
-							return error;
+						function(res){
+							console.log(res.data);
+							return [];
 						});
 		}
 
@@ -39,61 +41,84 @@
 
 			var url = API_URL + 'rss/catelog';
 			
-			return $http.get(url,{params: {token: userToken}})
+			return $http.get(url, {params: {token: userToken}})
 						.then(function(res){
-							console.log(res);
+							//console.log(res.data);
 							return updateRssCache(res.data);
 						},
-						function(error){
-							return error;
+						function(res){
+							console.log(res.data);
+							return [];
+							//return error;
 						});
 			
 		}
 
-		function getFeedsByCatelogId(catelogid){
-			var url = API_URL + 'rss/feeds';
+		function getFeedsByCatelogId(catelogid, page, limit){
+			var url = API_URL + 'rss/items';
 			
-			return $http.get(url, {params:{catelogId:catelogid}})
+			return $http.get(url, {params:{catelogId:catelogid, page: page, limit: limit}})
 						.then(function(res){
-							return updateFeedListCache(res.data);
+							return updateFeedListCache(catelogid, res.data);
 						},
-						function(error){
-							return error;
+						function(res){
+							console.log(res.data);
+							return [];
 						});
 		}
 
 		function removeCatelogs(catelogs){
 			var url = API_URL + 'rss/removeCatelogs';
 			
-			return $http.post(url, {catelogIds : catelogs})
+			return $http.post(url, {token: authToken.getToken(),catelogIds : catelogs})
 						.then(function(res){
-							return removeLocalCatelogs(res.data);
-						}, function(res){
-							console.log(res);
 							return removeLocalCatelogs(catelogs);
-							//return {error: 'the server operation failed'};
+						}, function(res){
+							return removeLocalCatelogs(catelogs);
 						});
 				
 		}
 
 
 		function getFeedCotentById(id){
-			var url = API_URL + 'rss/feedContent';
-			return $http.get(url, {params:{feedId: id}})
+			var url = API_URL + 'rss/itemContent';
+			return $http.get(url, {params:{itemId: id}})
 						.then(function(res){
-							//return updateFeedListCache(res.data);
-							//console.log(res.data);
-							return res.data.content;
+							return res.data;
 						},
-						function(error){
-							return error;
+						function(res){
+							console.log(res.data);
+							return [];
+						});
+		}
+
+		function searchRssCatelog(query){
+			var url = API_URL + 'rss/search';
+			console.log(url);
+			return $http.get(url, {params: {q: query}})
+						.then(function(res){
+							return res.data;
+						}, function(res){
+							console.log(res.data);
+							return [];
+						});
+		}
+
+		function addRssCatelog(id){
+			var url = API_URL + 'rss/catelog';
+			return $http.post(url, {token: authToken.getToken(), catelogId: id})
+						.then(function(res){
+							return res.data;
+						}, function(res){
+							console.log(res.data);
+							return -1;
 						});
 		}
 
 		//process local cache 
 		function removeLocalCatelogs(catelogIds){
 			var rssCatelogCache = rssCache.getRssCatelogCache();
-			console.log('before', rssCatelogCache);
+			//console.log('before', rssCatelogCache);
 
 		 	rssCatelogCache = _.chain(rssCatelogCache)
 							   .filter(function(n){
@@ -102,7 +127,6 @@
 								 	});
 								})
 							   .value();
-			
 			rssCache.updateRssCatelogCache(rssCatelogCache);
 			return rssCatelogCache;
 		}
@@ -130,12 +154,11 @@
 		}
 
 		//private
-		function updateFeedListCache(feedListData){
-			var rssFeedListCache = rssCache.getRssFeedListCache();
+		function uniqMergeList(dataNet, dataLocal){
 			var mergeList = [];
-			if(!!rssFeedListCache && rssFeedListCache.length){
-				mergeList = feedListData.concat(rssFeedListCache);
-				
+
+			if(dataLocal instanceof Array){
+				mergeList = dataLocal.concat(dataNet);
 				mergeList = _.chain(mergeList)
 							 .uniqBy(function(n){
 				 				return n._id;
@@ -143,8 +166,14 @@
 							 .value();
 			}
 			else{
-				mergeList = feedListData;
+				mergeList = dataNet;
 			}
+			return mergeList;
+		}
+
+		function updateFeedListCache(catelogId, feedListData){
+			var rssFeedListCache = getLocalFeedList(catelogId);
+			var mergeList = uniqMergeList(feedListData, rssFeedListCache);
 			rssCache.updateRssFeedListCache(mergeList);
 			return mergeList;
 		}
@@ -152,33 +181,8 @@
 
 		function updateRssCache(data){
 			var rssCatelogCache = rssCache.getRssCatelogCache();
-			
-			console.log(data);
-
-			var mergeList = [];
-			if(!!rssCatelogCache && rssCatelogCache.length){
-				if(!(data instanceof Array)){
-					mergeList = [data];
-				}
-				mergeList = mergeList.concat(rssCatelogCache);
-				mergeList = _.chain(mergeList)
-							 .uniqBy(function(n){
-				 				return n._id;
-							 })
-							 .value();
-			}
-			else{
-				if(!(data instanceof Array)){
-					mergeList = [data];
-				}
-				else{
-					mergeList = data;
-				}
-			}
-		
-			
+			var mergeList = uniqMergeList(data, rssCatelogCache);
 			rssCache.updateRssCatelogCache(mergeList);
-			
 			return mergeList;
 		}
 

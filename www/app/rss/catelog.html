@@ -1,12 +1,13 @@
 <ion-view view-title="RSS" ng-controller="RSSCatelogCtrl as vm">
 	
 	<ion-nav-buttons side="right">
-		<button  ng-if="!vm.removeMode" class="button button-clear icon ion-ios-search"></button>
-		<button  ng-if="vm.removeMode" class="button button-clear" ng-click="vm.cancelRemoveMode()">Cancel</button>
+		<button  ng-if="!vm.removeMode" class="button button-clear icon ion-ios-search" ui-sref="app.rssSearch"></button>
+		<button  ng-if="vm.removeMode" class="button button-clear icon ion-ios-trash" ng-click="vm.removeSelectedCatelog()"></button>
+		
 	</ion-nav-buttons>
 	<ion-nav-buttons side="left">
-		<button  ng-if="vm.removeMode" class="button button-clear icon ion-ios-trash" ng-click="vm.removeSelectedCatelog()"></button>
-		<button  ng-if="!vm.removeMode" class="button button-clear icon ion-plus-round" ui-sref="app.subRss"></button>
+		<button  ng-if="vm.removeMode" class="button button-clear" ng-click="vm.cancelRemoveMode()">Cancel</button>
+		<button  ng-if="!vm.removeMode" class="button button-clear icon ion-plus-round" ui-sref="app.rssSubcrible"></button>
 	</ion-nav-buttons>
 	
    	<ion-content class="has-header">
@@ -15,16 +16,16 @@
 		<div class="list" >
 			<div class="item item-icon-right item-text-wrap" ng-repeat="catelog in vm.rssCatelogs" on-hold="vm.switchRemoveMode()">
 				<div ui-sref="app.rssFeeds({catelogId: catelog._id, catelogTitle: catelog.title})" ng-if="!vm.removeMode">
-					<div>{{catelog.title}}</div>
-					<div>{{catelog.subtitle}}</div>
+					<div class="title">{{catelog.title}}</div>
+					<div>{{!!catelog.subtitle ? catelog.subtitle : catelog.link}}</div>
 					<i class="icon ion-chevron-right icon-accessory"></i>
 				</div>
 				<div ng-if="vm.removeMode" ng-click="vm.selectRemoveItem(catelog._id)">
+					<div class="title">{{catelog.title}}</div>
+					<div>{{catelog.subtitle}}</div>
 					<label class="checkbox">
        					<input type="checkbox">
-     			    </label>
-					<div>{{catelog.title}}</div>
-					<div>{{catelog.subtitle}}</div>	
+     			    </label>	
 				</div>
 			</div>
 		</div>

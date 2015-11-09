@@ -24,7 +24,8 @@
 
         var cache = CacheFactory.createCache(userCache, {
             storageMode: 'localStorage',
-            deleteOnExpire: 'aggressive'
+            deleteOnExpire: 'aggressive',
+            recycleFreq: 60000 * 1
         });
 
  

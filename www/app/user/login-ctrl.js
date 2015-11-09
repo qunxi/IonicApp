@@ -11,6 +11,11 @@
 		vm.username = '';
 		vm.login = login;
 
+
+        if(authToken.isAuthenticated()){
+            $state.go('app.account');
+        }
+
 		function validation(){
 			return checkPassword() && checkUserName();
 		}
@@ -43,7 +48,7 @@
                     });
                 }
                 else{
-                    $state.go('app.home');
+                    $state.go('app.account');
                 }
             }
 

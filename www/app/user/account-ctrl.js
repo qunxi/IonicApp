@@ -2,28 +2,38 @@
 
 	angular.module('mobileApp').controller('AccountCtrl', AccountCtrl);
 
-	AccountCtrl.$inject = ['authToken', '$state', '$ionicHistory'];
+	AccountCtrl.$inject = ['authToken', '$state',  '$ionicPopup', 'rssCache'];
 
-	function AccountCtrl(authToken, $state, $ionicHistory){
+	function AccountCtrl(authToken, $state, $ionicPopup, rssCache){
 
 		var vm = this;
 		
 		vm.isAuthenticated = authToken.isAuthenticated();
-
+		vm.logout = logout;
+		vm.removeCache = removeCache;
 		
 		if(!vm.isAuthenticated){
-			//console.log($ionicHistory.viewHistory());
-			//if($ionicHistory.backview === null)
-				//$state.go('app.home');
 			$state.go('app.login');
-			//console.log($ionicHistory.viewHistory());
 		}
 		
-		vm.logout = logout;
+		function removeCache(){
+			var popupConfirm = $ionicPopup.confirm({
+				title: 'MessageBox',
+				template: 'Do you really want to remove local cache data?'
+			});
+
+			popupConfirm.then(function(res){
+				if(res){
+					rssCache.removeRssFeedListCache();
+					rssCache.removeRssCatelogCache();
+				}
+			});
+		}
+		
 
 		function logout(){
 
-			authToken.removeToken();
+			authToken.removeCurrentUser();
 			$state.go('app.login');
 		}
 	}
