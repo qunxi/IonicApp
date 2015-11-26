@@ -1,0 +1,67 @@
+<ion-view view-title="Job" ng-controller="JobCtrl as vm">
+	<div class="bar search-panel">
+		<div class="item-input-inset" >
+	       <label class="item-input-wrapper">
+	         	<i class="icon ion-search placeholder-icon"></i>
+	         	<input type="text" placeholder="Search" 
+	         		ng-model="vm.query" ng-change="vm.searchJobs()">
+	       </label>
+	    </div>
+		<div class="button-bar">
+			<button class="button button-light" ng-class="{'button-positive': vm.selectedLocation == location }" ng-repeat="location in vm.locations" ng-click="vm.setLocation(location)">
+			{{location}}</button>
+		</div>
+	</div>
+	<ion-content class="has-search-panel">
+		<ion-refresher pulling-text="Pull to refresh" on-refresh="vm.refreshJobs()">
+    	</ion-refresher>
+		<div class="list">
+			<div class="item item-text-wrap " ng-repeat="job in vm.jobs">
+				<div class="row" ng-click="vm.showJobDetails(job.url)">
+					<div class="col col-70 text-left">
+						<h2 class="job-title">{{job.title}}</h2>
+						<p class="job-company">{{job.company}}</p>
+					</div>
+					<div class="col clo-30 text-right">
+						<span class="job-date">{{job.startdate}}</span>
+						<p>{{job.salary}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col job-description">{{job.description}}</div>
+					
+				</div>
+			</div>
+		</div>
+    </ion-content>
+
+    <style type="text/css">
+      .job-title {
+      	color: #038bd9;
+      }
+      .job-description, .job-date, .job-company{
+      	color: #666;
+      }
+	  .bar.search-panel {
+		  display: block;
+		  height: 80px;
+		  /* starts right below a normal header */
+		  top: 44px;
+		  /* make the text centered vertically and horizontally */
+		  text-align: center;
+		  padding: 0;
+		  line-height: 24px;
+		  /* transition 'sliding down' (check below)*/
+		  -webkit-transition: 200ms all;
+	  }
+
+	  .has-search-panel{
+		 top: 124px;
+	  }
+
+	  .item-input-inset {
+		padding: 7px;
+	  }
+	</style>
+</ion-view>
+

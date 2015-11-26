@@ -3,49 +3,61 @@
 
     angular.module('mobileApp').controller('RSSFeedCtrl', RSSFeedCtrl);
 
-    RSSFeedCtrl.$inject = ['$stateParams', '$scope', 'rssService', 'formatService', 'loadingService', '$cordovaInAppBrowser'];
+    RSSFeedCtrl.$inject = ['$state', '$scope', 'rssService'];
 
-    function RSSFeedCtrl($stateParams, $scope, rssService, formatService, loadingService, $cordovaInAppBrowser) {
+    function RSSFeedCtrl($state, $scope, rssService) {
         var vm = this;
 
-        vm.viewTitle = $stateParams.catelogTitle;
-        vm.rssFeeds = angular.copy(preProcessFeedList(rssService.getLocalFeedList($stateParams.catelogId)));
-        //initialFeed();
+        vm.viewTitle = $state.params.catelogTitle;
+        vm.catelogId = $state.params.catelogId;
 
-        /*vm.showContent = function(url){
-			var options = {
-			location: 'yes',
-			clearcache: 'yes',
-			toolbar: 'no'
-			};
-			$cordovaInAppBrowser.open(url, '_blank', options);
-		};*/
+        vm.isLatesPostsUri = $state.is('app.posts');
+        vm.page = 0;
+        if(vm.isLatesPostsUri){
+            vm.rssFeeds = angular.copy(rssService.preProcessFeedList(rssService.getLocalLatestPosts()));
+        }
+        else{
 
+            vm.rssFeeds = angular.copy(rssService.preProcessFeedList(rssService.getLocalFeedList(vm.catelogId)));
+            console.log(vm.rssFeeds);
+        }
+        
         vm.refreshFeeds = function() {
             var limit = 5;
-            rssService.getFeedsByCatelogId($stateParams.catelogId, vm.rssFeeds.length / limit, limit)
-                .then(function(data) {
-                        vm.rssFeeds = angular.copy(preProcessFeedList(data));
-                    },
-                    function(err) {}
-                )
-                .finally(function() {
-                    $scope.$broadcast('scroll.refreshComplete');
-                });
+            if(vm.isLatesPostsUri){
+                rssService.getAllFeedsByDate(vm.page++, limit)
+                    .then(function(data) {
+                            vm.rssFeeds = angular.copy(rssService.preProcessFeedList(data));
+                        },
+                        function(err) {}
+                    )
+                    .finally(function() {
+                        $scope.$broadcast('scroll.refreshComplete');
+                    });
+            }
+            else{
+                rssService.getFeedsByCatelogId(vm.catelogId, vm.page++, limit)
+                    .then(function(data) {
+                            vm.rssFeeds = angular.copy(rssService.preProcessFeedList(data));
+                        },
+                        function(err) {}
+                    )
+                    .finally(function() {
+                        $scope.$broadcast('scroll.refreshComplete');
+                    });
+            }
         };
 
+        vm.go2Details = function go2Details(title, id, link){
+            var params = {title: title, id: id, link: link};
 
-        function preProcessFeedList(data) {
-        	
-            return	_.chain(data)
-	                .map(function(n) {
-	                    n.title = formatService.cuttingString(n.title, 50);
-	                    n.thumbPic = n.images.length > 0 ? n.images[0] : '/img/noPictrue.jpg';
-	                    n.updated = formatService.formatDate(n.updated);
-	                    return n;
-	                })
-	                .value();
-        }
+            if(vm.isLatesPostsUri){
+                $state.go('app.post', params);
+            }
+            else{
+                $state.go('app.feedDetails', params);
+            }
+        };
     }
 
 })();

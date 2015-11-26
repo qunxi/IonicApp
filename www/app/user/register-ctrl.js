@@ -4,9 +4,9 @@
     angular.module('mobileApp')
         .controller('RegisterCtrl', RegisterCtrl);
 
-    RegisterCtrl.$inject = ['authenticate', '$ionicPopup'];
+    RegisterCtrl.$inject = ['authenticate', '$ionicPopup', 'userService'];
 
-    function RegisterCtrl(authenticate, $ionicPopup) {
+    function RegisterCtrl(authenticate, $ionicPopup, userService) {
 
         var vm = this;
 
@@ -57,24 +57,19 @@
 
 
         function checkUser() {
-            var reg = new RegExp('^[a-zA-Z0-9-_]{4,30}$', 'g');
-            return reg.test(vm.registerData.username.model);
+            return userService.checkUser(vm.registerData.username.model);
         }
 
         function checkPassword() {
-            var reg = new RegExp('^[\\W\\w]{6,15}$', 'g');
-            return reg.test(vm.registerData.password.model);
+            return userService.checkPassword(vm.registerData.password.model);
         }
 
         function checkPasswordEqual() {
-            return vm.registerData.passwordAgain.model &&
-            	   vm.registerData.password.model === vm.registerData.passwordAgain.model;
+            return 	userService.checkPasswordEqual(vm.registerData.password.model, vm.registerData.passwordAgain.model);
         }
 
         function checkEmail() {
-            var reg = new RegExp('^[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$',
-                'g');
-            return reg.test(vm.registerData.email.model);
+            return userService.checkEmail(vm.registerData.email.model);
         }
 
         function validation() {

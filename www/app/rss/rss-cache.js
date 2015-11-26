@@ -14,7 +14,10 @@
 			updateRssCatelogCache: updateRssCatelogCache,
 			getRssFeedListCache: getRssFeedListCache,
 			updateRssFeedListCache: updateRssFeedListCache,
-			removeRssFeedListCache: removeRssFeedListCache
+			removeRssFeedListCache: removeRssFeedListCache,
+			getLatestPostsCache: getLatestPostsCache,
+			removeLatestPostsCache: removeLatestPostsCache,
+			updateLatestPostsCache: updateLatestPostsCache,
 		};
 
 		var caches = {
@@ -27,6 +30,13 @@
 			},
 			'rssFeedListCache':{
 				cacheId: 'rssFeedListCache',
+				config: {
+					storageMode: 'localStorage',
+					deleteOnExpire: 'aggressive'
+	        	}
+			},
+			'latestPostsCache':{
+				cacheId: 'latestPostsCache',
 				config: {
 					storageMode: 'localStorage',
 					deleteOnExpire: 'aggressive'
@@ -48,6 +58,20 @@
 			 getCache(caches.rssCatelogCache.cacheId)
 					.put('rssFeedListData', rssFeedListData);
 		}
+
+		function getLatestPostsCache(){
+			return getCache(caches.latestPostsCache.cacheId).get('latestPostsData');
+		}
+
+		function removeLatestPostsCache(){
+			return getCache(caches.latestPostsCache.cacheId).remove('latestPostsData');
+		}
+
+		function updateLatestPostsCache(latestPostsData){
+			 getCache(caches.latestPostsCache.cacheId)
+					.put('latestPostsData', latestPostsData);
+		}
+
 
 
 		function getRssCatelogCache(){

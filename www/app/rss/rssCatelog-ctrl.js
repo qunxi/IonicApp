@@ -13,6 +13,12 @@
 		vm.removeMode = false;
 		vm.removeItemList = [];
 		
+		vm.isAuthenticated = authToken.isAuthenticated();
+		
+		if(!vm.isAuthenticated){
+			$state.go('app.login');
+		}
+
 		vm.subscrible = function(address){
 			loadingService.show();
 

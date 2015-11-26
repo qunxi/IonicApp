@@ -15,13 +15,25 @@ angular.module('mobileApp', ['ionic', 'ngCordova', 'angular-cache', 'custom-dire
         if($state.current.name === 'app.login'){
             $state.go('app.home');
         }
-        else if($ionicHistory.backView()){
+        else if($state.current.name === 'app.home'){
+            ionic.Platform.exitApp();
+        }
+        else if($state.current.name === 'app.home' || 
+                $state.current.name === 'app.account' ||
+                $state.current.name === 'app.job' ||
+                $state.current.name === 'app.rss' ||
+                $state.current.name === 'app.more'){
+            $state.go('app.home');
+        }
+        else{
             $ionicHistory.goBack();
         }
     }, 101);
 })
 
+
 //.constant('API_URL', 'https://dry-badlands-9547.herokuapp.com/api/')
+//.constant('API_URL', 'http://www.wangqunxi.com/api/')
 .constant('API_URL', 'http://localhost:3000/api/')
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $ionicConfigProvider, CacheFactoryProvider) {
    
@@ -56,6 +68,22 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
                 }
             }
         })
+        .state('app.post', {
+            url: '/home/post/:title/:id/:link',
+            views: {
+                'tab-home':{
+                    templateUrl: 'app/rss/feedDetails.html'
+                }
+            }
+        })
+        .state('app.posts', {
+            url: '/home/posts',
+            views: {
+                'tab-home':{
+                    templateUrl: 'app/rss/rssFeeds.html'
+                }
+            }
+        })
         .state('app.account', {
             url: '/account',
             cache: false,
@@ -63,9 +91,16 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
                 'tab-account': {
                     templateUrl: 'app/user/account.html'
                 }
-            }/*,
-            controller: 'AccountCtrl',
-            controllerAs: 'vm'*/
+            }
+        })
+        .state('app.changepassword', {
+            url: '/account/changepassword',
+            cache: false,
+            views: {
+                'tab-account':{
+                    templateUrl: 'app/user/changepassword.html'
+                }
+            }
         })
         .state('app.about', {
             url: '/more/about',
@@ -92,7 +127,16 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
                 }
             }
         })
-        .state('app.finance', {
+        .state('app.job', {
+            url: '/job',
+            cache: false,
+            views: {
+                'tab-job':{
+                    templateUrl: 'app/job/job.html'
+                }
+            }
+        })
+        /*.state('app.finance', {
             url: '/finance',
             cache: false,
             views: {
@@ -109,7 +153,7 @@ function configRouterProvider($stateProvider, $urlRouterProvider){
                     templateUrl: 'app/finance/search.html'
                }
             }
-        })
+        })*/
         .state('app.rss', {
             url: '/rss',
             cache: false,

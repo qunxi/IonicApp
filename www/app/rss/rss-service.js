@@ -19,7 +19,10 @@
 			getLocalCatelogs: getLocalCatelogs,
 			getLocalFeedList: getLocalFeedList,
 			getFeedCotentById: getFeedCotentById,
-			removeLocalCatelogs: removeLocalCatelogs
+			removeLocalCatelogs: removeLocalCatelogs,
+			getLocalLatestPosts: getLocalLatestPosts,
+			getAllFeedsByDate: getAllFeedsByDate,
+			preProcessFeedList: preProcessFeedList
 		};
 
 		return service;
@@ -32,7 +35,6 @@
 							return updateRssCache(res.data);
 						},
 						function(res){
-							console.log(res.data);
 							return [];
 						});
 		}
@@ -43,13 +45,11 @@
 			
 			return $http.get(url, {params: {token: userToken}})
 						.then(function(res){
-							//console.log(res.data);
 							return updateRssCache(res.data);
 						},
 						function(res){
 							console.log(res.data);
 							return [];
-							//return error;
 						});
 			
 		}
@@ -62,10 +62,23 @@
 							return updateFeedListCache(catelogid, res.data);
 						},
 						function(res){
-							console.log(res.data);
+							//console.log(res.data);
 							return [];
 						});
 		}
+
+
+		function getAllFeedsByDate(page, limit){
+			var url = API_URL + 'posts';
+			return $http.get(url, {params: {page: page, limit: limit}})
+					.then(function(res){
+						return updateLocalLatestPosts(res.data);
+					},
+					function(res){
+						return [];				
+					});
+		}
+
 
 		function removeCatelogs(catelogs){
 			var url = API_URL + 'rss/removeCatelogs';
@@ -84,17 +97,16 @@
 			var url = API_URL + 'rss/itemContent';
 			return $http.get(url, {params:{itemId: id}})
 						.then(function(res){
+							console.log(res);
 							return res.data;
 						},
 						function(res){
-							console.log(res.data);
 							return [];
 						});
 		}
 
 		function searchRssCatelog(query){
 			var url = API_URL + 'rss/search';
-			console.log(url);
 			return $http.get(url, {params: {q: query}})
 						.then(function(res){
 							return res.data;
@@ -118,8 +130,6 @@
 		//process local cache 
 		function removeLocalCatelogs(catelogIds){
 			var rssCatelogCache = rssCache.getRssCatelogCache();
-			//console.log('before', rssCatelogCache);
-
 		 	rssCatelogCache = _.chain(rssCatelogCache)
 							   .filter(function(n){
 								 	return !_.find(catelogIds, function(id){
@@ -134,7 +144,6 @@
 		function getLocalCatelogs(){
 
 			var rssCatelogCache = rssCache.getRssCatelogCache();
-			console.log(rssCatelogCache);
 			if(!!rssCatelogCache && rssCatelogCache.length){
 				
 				return rssCatelogCache;
@@ -144,12 +153,22 @@
 
 		function getLocalFeedList(catelogId){
 			var rssFeedListCache = rssCache.getRssFeedListCache();
-			if(!!rssFeedListCache && rssFeedListCache.length){
-				return _.filter(rssFeedListCache, function(n){
-					return n.catelogId === catelogId;
 
-				});
+			if(!!rssFeedListCache && !!rssFeedListCache[catelogId]){
+				return rssFeedListCache[catelogId].items;
 			}
+			return [];
+		}
+
+		function getLocalLatestPosts(){
+
+			var latestPosts = rssCache.getLatestPostsCache();
+			
+			if(!!latestPosts && latestPosts.length){
+				
+				return latestPosts;
+			}
+
 			return [];
 		}
 
@@ -172,12 +191,14 @@
 		}
 
 		function updateFeedListCache(catelogId, feedListData){
-			var rssFeedListCache = getLocalFeedList(catelogId);
-			var mergeList = uniqMergeList(feedListData, rssFeedListCache);
-			rssCache.updateRssFeedListCache(mergeList);
+			var rssFeedList = getLocalFeedList(catelogId);
+			var mergeList = uniqMergeList(feedListData, rssFeedList);
+			var rssFeedListCache = rssCache.getRssFeedListCache() ?  rssCache.getRssFeedListCache() : {};
+			rssFeedListCache[catelogId] = {items: mergeList};
+		
+			rssCache.updateRssFeedListCache(rssFeedListCache);
 			return mergeList;
 		}
-
 
 		function updateRssCache(data){
 			var rssCatelogCache = rssCache.getRssCatelogCache();
@@ -186,6 +207,27 @@
 			return mergeList;
 		}
 
+		function updateLocalLatestPosts(data){
+			//var posts = formatHotPosts(data);
+			if(!!data && data.length){
+				var latestPosts = rssCache.getLatestPostsCache();
+				var mergeList = uniqMergeList(data, latestPosts);
+				rssCache.updateLatestPostsCache(mergeList);
+				return mergeList;
+			}
+			return getLocalLatestPosts();
+		}
+
+		function preProcessFeedList(data) {
+            return	_.chain(data)
+	                .map(function(n) {
+	                    n.title = formatService.cuttingString(n.title, 50);
+	                    n.thumbPic = n.images.length > 0 ? n.images[0] : '/img/noPictrue.jpg';
+	                    n.updated = formatService.formatDate(n.updated);
+	                    return n;
+	                })
+	                .value();
+        }
 	}
 
 })();

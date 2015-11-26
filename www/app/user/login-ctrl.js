@@ -2,9 +2,9 @@
 
 	angular.module('mobileApp').controller('LoginCtrl', LoginCtrl);
 
-	LoginCtrl.$inject = ['authToken', '$state', 'authenticate', '$ionicPopup', '$ionicPlatform','$ionicHistory'];
+	LoginCtrl.$inject = ['authToken', '$state', 'authenticate', '$ionicPopup', 'userService'];
 
-	function LoginCtrl(authToken, $state, authenticate, $ionicPopup, $ionicPlatform, $ionicHistory){
+	function LoginCtrl(authToken, $state, authenticate, $ionicPopup, userService){
 		var vm = this;
 
 		vm.password = '';
@@ -21,13 +21,11 @@
 		}
 
 		function checkUserName() {
-            var reg = new RegExp('^[a-zA-Z0-9-_]{4,30}$', 'g');
-            return reg.test(vm.username);
+            return userService.checkUser(vm.username);
         }
 
         function checkPassword() {
-            var reg = new RegExp('^[\\W\\w]{6,15}$', 'g');
-            return reg.test(vm.password);
+            return userService.checkPassword(vm.password);
         }
 
         function login(){

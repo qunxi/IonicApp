@@ -4,16 +4,16 @@
 	</ion-nav-buttons>
 	<ion-content >
 	<!--<iframe width="780px" height="90%" src="{{vm.url}}" scrolling="auto"></iframe>-->
-			<h3 class="padding">{{vm.title}}</h3>
-			<ul class="floatTool">
+			<h3 class="padding" ng-if="vm.loadedSuccess">{{vm.title}}</h3>
+			<ul class="floatTool" ng-if="vm.loadedSuccess">
 				<li class="icon ion-ios-star-outline"><span>Favorite</span></li>
 				<li class="icon ion-sad-outline"><span>Dislike</span></li>
 				<li class="icon ion-ios-chatboxes-outline"><span>Comment</span></li>
-				<!--<li class="icon ion-share"><span>share</span></li>-->
 			</ul>
 			<div style="clear: both"></div>
 			<div class="entryBody" ng-bind-html="vm.content"></div>
-			<div ng-click="vm.go2origin()" class="origin">Origin ... </div>
-		
+			<div class="padding">
+				<button ng-if="vm.loadedSuccess" ng-click="vm.go2origin()" class="button button-positive icon-right ion-chevron-right">The Original</button>
+		    </div>
 	</ion-content>
 </ion-view>

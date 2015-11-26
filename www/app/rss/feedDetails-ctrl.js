@@ -9,10 +9,11 @@
 		var vm = this;
 		
 		vm.title = $stateParams.title;
-		
+		vm.loadedSuccess = false;
+
 		vm.go2origin = function(){
 			var options = {
-				location: 'yes',
+				location: 'no',
 				clearcache: 'yes',
 				toolbar: 'no'
 			};
@@ -24,8 +25,8 @@
 	    rssService.getFeedCotentById($stateParams.id)
 	    		  .then(function(content){
 	    			    vm.content = content;
-	    			    console.log(content);
 	    			    loadingService.hide();
+	    			    vm.loadedSuccess = true;
 	    		   });
 
 

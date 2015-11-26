@@ -15,5 +15,30 @@
 		
 		<icon-grid cells="vm.icons" colnum="4">
 		</icon-grid>
+		<div class="list">
+			<div class="item item-divider item-energized">
+				<span>Articals</span>
+				<span style="float: right" ui-sref="app.posts()">more...</span>
+			</div>
+			<div class="item item-thumbnail-right item-text-wrap" ng-repeat="post in vm.latestPosts"
+			     ui-sref="app.post({title: post.title, id: post._id, link: post.link})">
+				<img ng-src="{{post.thumbPic}}"/>
+				<div class="title">{{post.title}}</div>
+				<h3 class="item-date">{{post.updated}}</h3>
+			</div>
+			<div class="item item-divider item-balanced">Jobs</div>
+			<div class="item item-text-wrap" ng-repeat="job in vm.latestJobs">
+				<div class="row" ng-click="vm.showJobDetails(job.url)">
+					<div class="col col-70 text-left">
+						<h2 class="job-title">{{job.title}}</h2>
+						<p class="job-company">{{job.company}}</p>
+					</div>
+					<div class="col clo-30 text-right">
+						<span class="job-date">{{job.startdate}}</span>
+						<p>{{job.salary}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</ion-content>
 </ion-view>

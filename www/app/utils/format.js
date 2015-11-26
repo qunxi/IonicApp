@@ -22,7 +22,7 @@
 			}
 			
 			return newDate.getUTCFullYear() + '-' +
-			       newDate.getUTCMonth() + '-' + newDate.getUTCDate() +
+			       (newDate.getUTCMonth() + 1) + '-' + newDate.getUTCDate() +
 				   ' ' + newDate.getUTCHours() + ':' + newDate.getUTCMinutes() + 
 				   ':' + newDate.getUTCSeconds();
 		}
