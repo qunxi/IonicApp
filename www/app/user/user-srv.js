@@ -35,7 +35,7 @@
 
 
         function checkUser(username) {
-            var reg = new RegExp('^[a-zA-Z0-9-_]{4,30}$', 'g');
+            var reg = new RegExp('^[a-zA-Z0-9-_@.]{4,30}$', 'g');
             return reg.test(username) || !username.length;
         }
 

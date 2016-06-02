@@ -18,7 +18,7 @@
             var token = authToken.getToken();
 
             if (token)
-                config.headers.Authorization = "Bear" + token;
+                config.headers.Authorization = "Bear " + token;
 
             return config;
         }

@@ -29,7 +29,7 @@
 		vm.latestPosts = getTop5LocalLatestPosts();
 		
 		getLatestPosts();
-		getLatestJobs();
+		//getLatestJobs();
 
 
 		vm.showJobDetails = function(url){

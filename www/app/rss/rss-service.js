@@ -62,7 +62,6 @@
 							return updateFeedListCache(catelogid, res.data);
 						},
 						function(res){
-							//console.log(res.data);
 							return [];
 						});
 		}
@@ -70,9 +69,10 @@
 
 		function getAllFeedsByDate(page, limit){
 			var url = API_URL + 'posts';
+			console.log(url);
 			return $http.get(url, {params: {page: page, limit: limit}})
 					.then(function(res){
-						return updateLocalLatestPosts(res.data);
+						return updateLocalLatestPosts(res.data.items);
 					},
 					function(res){
 						return [];				
@@ -209,9 +209,11 @@
 
 		function updateLocalLatestPosts(data){
 			//var posts = formatHotPosts(data);
+			console.log(data);
 			if(!!data && data.length){
 				var latestPosts = rssCache.getLatestPostsCache();
 				var mergeList = uniqMergeList(data, latestPosts);
+				console.log(mergeList);
 				rssCache.updateLatestPostsCache(mergeList);
 				return mergeList;
 			}
@@ -219,6 +221,7 @@
 		}
 
 		function preProcessFeedList(data) {
+
             return	_.chain(data)
 	                .map(function(n) {
 	                    n.title = formatService.cuttingString(n.title, 50);
